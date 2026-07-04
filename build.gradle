@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '4.1.0'
+    id 'org.springframework.boot' version '3.2.4' // 👈 버전을 안정적인 3.x로 변경했습니다!
     id 'io.spring.dependency-management' version '1.1.7'
 }
 
@@ -20,12 +20,16 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    implementation 'org.springframework.boot:spring-boot-starter-web' // spring-boot-starter-webmvc 대신 표준 명칭으로 변경
+
+    // ⚠️ H2 데이터베이스 라이브러리를 추가했습니다!
+    runtimeOnly 'com.h2database:h2'
+
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
-    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testCompileOnly 'org.projectlombok:lombok'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testAnnotationProcessor 'org.projectlombok:lombok'
