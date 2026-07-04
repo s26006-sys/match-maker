@@ -1,156 +1,365 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html class="dark" lang="ko">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Matchmaker Pro | Black & White Edition</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
+    <title>Matchmaker Pro | Squad Management</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&family=Geist:wght@400;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#76231b",
+                        "secondary": "#c6c6c7",
+                        "on-background": "#e5e2e1",
+                        "background": "#131313",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "outline": "#869585",
+                        "inverse-on-surface": "#313030",
+                        "inverse-primary": "#006e2f",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "primary-container": "#22c55e",
+                        "on-primary-container": "#004b1e",
+                        "primary-fixed": "#6bff8f",
+                        "on-secondary": "#2f3131",
+                        "secondary-container": "#454747",
+                        "on-primary-fixed": "#002109",
+                        "surface-tint": "#4ae176",
+                        "tertiary-container": "#ff8b7c",
+                        "primary": "#4be277",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary-fixed-dim": "#4ae176",
+                        "tertiary": "#ffb5ab",
+                        "on-primary-fixed-variant": "#005321",
+                        "surface-dim": "#131313",
+                        "outline-variant": "#3d4a3d",
+                        "tertiary-fixed": "#ffdad5",
+                        "surface": "#131313",
+                        "surface-container": "#201f1f",
+                        "on-surface-variant": "#bccbb9",
+                        "on-tertiary": "#60130d",
+                        "on-error": "#690005",
+                        "on-surface": "#e5e2e1",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-bright": "#393939",
+                        "error": "#ffb4ab",
+                        "inverse-surface": "#e5e2e1",
+                        "on-tertiary-fixed": "#410001",
+                        "on-primary": "#003915",
+                        "on-secondary-container": "#b4b5b5",
+                        "tertiary-fixed-dim": "#ffb4a9",
+                        "secondary-fixed": "#e2e2e2",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-variant": "#353534",
+                        "error-container": "#93000a",
+                        "surface-container-highest": "#353534",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#454747",
+                        "on-tertiary-fixed-variant": "#7f2a21"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "16px",
+                        "gutter": "20px",
+                        "margin": "24px",
+                        "xs": "8px",
+                        "lg": "32px",
+                        "md": "24px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Hanken Grotesk"],
+                        "mono-data": ["Geist"],
+                        "body-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "label-sm": ["Geist"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "700"}],
+                        "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #000000; color: #ffffff; }
-        .bw-card { background: #121212; border: 1px solid #262626; }
-        .bw-pitch { background: #0a0a0a; border: 1px solid #262626; }
-        .drop-zone { transition: all 0.2s ease; min-height: 55px; border: 1px dashed #262626; }
-        .drop-zone.drag-over { background: #1a1a1a; border-color: #ffffff; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #131313; }
+        ::-webkit-scrollbar-thumb { background: #3d4a3d; border-radius: 2px; }
+
+        /* Pitch Drop Zones */
+        .soccer-pitch {
+            position: relative;
+            background-color: rgba(14, 14, 14, 0.5);
+            background-image:
+                    linear-gradient(rgba(61, 74, 61, 0.1) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(61, 74, 61, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            border: 2px solid #3d4a3d;
+        }
+        .soccer-pitch::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(61, 74, 61, 0.3);
+            transform: translateY(-50%);
+        }
+        .soccer-pitch::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80px;
+            height: 80px;
+            border: 2px solid rgba(61, 74, 61, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .penalty-box-top {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 40px;
+            border: 2px solid rgba(61, 74, 61, 0.3);
+            border-top: 0;
+        }
+        .penalty-box-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 40px;
+            border: 2px solid rgba(61, 74, 61, 0.3);
+            border-bottom: 0;
+        }
+        .drop-zone { transition: all 0.2s ease; min-height: 45px; }
+        .drop-zone.drag-over { background: rgba(75, 226, 119, 0.15); border: 1px dashed #4be277; border-radius: 4px; }
         .player-chip { cursor: grab; user-select: none; }
         .player-chip:active { cursor: grabbing; }
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #404040; border-radius: 2px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3d4a3d; border-radius: 2px; }
     </style>
 </head>
-<body class="min-h-screen p-4 md:p-8 flex items-center justify-center relative">
+<body class="bg-background text-on-surface font-body-md min-h-screen selection:bg-primary selection:text-on-primary">
+<div class="flex h-screen overflow-hidden">
 
-<main class="w-full max-w-[1500px] mx-auto space-y-5">
-
-    <header class="flex flex-col sm:flex-row justify-between items-center bg-[#121212] border border-[#262626] rounded-xl p-4 gap-4">
-        <div>
-            <span class="text-xl font-black tracking-tight text-white">MATCHMAKER PRO</span>
-            <p class="text-[11px] text-neutral-400 mt-0.5">Minimalist Black & White Layout</p>
+    <nav class="hidden md:flex flex-col h-full py-margin bg-surface border-r border-outline-variant w-64 fixed left-0 top-0 z-40 duration-200 ease-in-out">
+        <div class="px-gutter mb-lg">
+            <h1 class="font-headline-md text-headline-md text-primary font-bold tracking-tight">Team Manager</h1>
+            <p class="font-label-sm text-label-sm text-on-surface-variant mt-1 opacity-60">Active Season</p>
         </div>
-        <div class="flex gap-2">
-            <button onclick="fillSamplePlayers()" class="bg-[#262626] hover:bg-[#333333] border border-[#404040] text-neutral-200 font-bold px-4 py-2 rounded-lg text-xs transition">
-                👥 샘플 16명 채우기
+        <div class="flex-1 space-y-1">
+            <a class="flex items-center px-gutter py-3 text-primary font-bold border-r-2 border-primary bg-surface-container-low duration-200" href="#">
+                <span class="material-symbols-outlined mr-3">dashboard</span>
+                <span class="font-body-md text-body-md">Dashboard</span>
+            </a>
+            <button onclick="fillSamplePlayers()" class="w-full flex items-center px-gutter py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200 text-left">
+                <span class="material-symbols-outlined mr-3">group_add</span>
+                <span class="font-body-md text-body-md">샘플 16명 채우기</span>
             </button>
-            <button onclick="resetAll()" class="border border-[#262626] hover:bg-[#1a1a1a] text-neutral-400 px-4 py-2 rounded-lg text-xs transition">
-                전체 초기화
+            <button onclick="resetAll()" class="w-full flex items-center px-gutter py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200 text-left">
+                <span class="material-symbols-outlined mr-3">restart_alt</span>
+                <span class="font-body-md text-body-md">전체 초기화</span>
             </button>
         </div>
-    </header>
+        <div class="px-gutter mt-auto pt-margin border-t border-outline-variant/30">
+            <button onclick="openRegisterModal()" class="w-full py-3 bg-primary text-on-primary font-bold rounded-full flex items-center justify-center gap-2 active:scale-95 transition-all shadow-lg shadow-primary/10">
+                <span class="material-symbols-outlined">add_circle</span>
+                New Player
+            </button>
+        </div>
+    </nav>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:h-[720px]">
-
-        <div class="lg:col-span-5 flex flex-col gap-4 h-full">
-
-            <div class="bw-card rounded-xl p-4 flex justify-between items-center">
-                <div>
-                    <h2 class="text-xs font-bold text-neutral-300">선수 등록</h2>
-                    <p class="text-[10px] text-neutral-500">포지션과 실력을 지정합니다.</p>
-                </div>
-                <button onclick="openRegisterModal()" class="bg-white hover:bg-neutral-200 text-black px-5 py-2.5 rounded-lg text-xs font-black transition">
-                    + 신규 선수 등록
+    <main class="flex-1 ml-0 md:ml-64 flex flex-col min-h-0 bg-background">
+        <header class="w-full top-0 sticky flex justify-between items-center px-margin py-base z-30 bg-surface border-b border-outline-variant transition-colors">
+            <div class="flex items-center gap-4">
+                <h2 class="font-headline-md text-headline-md font-bold text-primary">Matchmaker Pro</h2>
+                <span class="hidden md:inline font-label-sm text-label-sm px-2 py-0.5 border border-outline-variant text-on-surface-variant rounded">Premium Dark Edition</span>
+            </div>
+            <div class="flex items-center gap-sm">
+                <button onclick="fillSamplePlayers()" class="md:hidden p-2 text-primary hover:bg-surface-container-high rounded-full flex items-center" title="샘플 채우기">
+                    <span class="material-symbols-outlined">group_add</span>
                 </button>
-            </div>
-
-            <div class="bw-card rounded-xl p-4 flex flex-col flex-1 min-h-[250px]">
-                <div class="flex justify-between items-center border-b border-[#262626] pb-2 mb-3">
-                    <h2 class="text-xs font-bold text-neutral-400">💡 [체크: 출석] [글자: 정보 수정]</h2>
-                    <span class="text-xs font-bold text-white bg-[#262626] px-2.5 py-1 rounded">
-                            출석: <span id="attendCount">0</span>명
-                        </span>
-                </div>
-                <div id="clickPlayerList" class="grid grid-cols-1 sm:grid-cols-2 gap-2 overflow-y-auto flex-1 pr-1 custom-scrollbar">
+                <button onclick="resetAll()" class="md:hidden p-2 text-error hover:bg-surface-container-high rounded-full flex items-center" title="초기화">
+                    <span class="material-symbols-outlined">restart_alt</span>
+                </button>
+                <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden border border-outline-variant">
+                    <span class="material-symbols-outlined text-on-surface-variant">account_circle</span>
                 </div>
             </div>
+        </header>
 
-            <div class="bw-card rounded-xl p-4 space-y-2">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-xs font-bold text-neutral-300">📋 팀 매칭 결과</h2>
-                    <button onclick="copyToClipboard()" class="bg-white hover:bg-neutral-200 text-black text-[11px] font-black px-4 py-1.5 rounded-lg transition">
-                        결과 복사
-                    </button>
+        <div class="flex-1 overflow-y-auto p-margin">
+            <div class="grid grid-cols-12 gap-gutter max-w-[1600px] mx-auto h-full">
+
+                <div class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+                    <section class="bg-surface-container-low rounded-xl p-margin flex justify-between items-center group transition-all">
+                        <div>
+                            <h3 class="font-headline-md text-body-md font-bold">선수 등록</h3>
+                            <p class="font-label-sm text-label-sm text-on-surface-variant">포지션과 실력을 지정합니다.</p>
+                        </div>
+                        <button onclick="openRegisterModal()" class="bg-on-surface text-background px-4 py-2 rounded font-bold text-label-sm flex items-center gap-1 active:scale-95 transition-transform">
+                            <span class="material-symbols-outlined text-[18px]">person_add</span>
+                            + 신규 선수 등록
+                        </button>
+                    </section>
+
+                    <section class="bg-surface-container-low rounded-xl flex flex-col flex-1 min-h-[450px] overflow-hidden">
+                        <div class="p-margin flex justify-between items-center bg-surface-container-high/30">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">lightbulb</span>
+                                <span class="font-label-sm text-label-sm font-bold">[체크: 출석] [글자: 정보 수정]</span>
+                            </div>
+                            <span class="bg-surface-container-high px-3 py-1 rounded font-mono-data text-label-sm text-on-surface">출석: <span id="attendCount">0</span>명</span>
+                        </div>
+                        <div id="clickPlayerList" class="grid grid-cols-1 gap-2 p-margin overflow-y-auto flex-1 custom-scrollbar max-h-[450px]">
+                            <div class="flex flex-col items-center justify-center p-lg opacity-40 text-center h-full">
+                                <span class="material-symbols-outlined text-4xl mb-4">group_off</span>
+                                <p class="font-body-md text-on-surface-variant">등록된 멤버가 없습니다.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="bg-surface-container-low rounded-xl p-margin">
+                        <div class="flex justify-between items-center mb-base border-b border-outline-variant pb-2">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[18px]">description</span>
+                                <h3 class="font-label-sm text-label-sm font-bold">팀 매칭 결과</h3>
+                            </div>
+                            <button onclick="copyToClipboard()" class="bg-on-surface text-background px-3 py-1 rounded font-bold text-[11px] active:opacity-80">결과 복사</button>
+                        </div>
+                        <textarea id="shareTextResult" readonly class="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg p-3 text-xs text-on-surface-variant outline-none resize-none font-mono-data min-h-[120px]" placeholder="팀 짜기 가동 시 결과 텍스트가 자동 생성됩니다."></textarea>
+                    </section>
                 </div>
-                <textarea id="shareTextResult" rows="4" readonly class="w-full bg-black border border-[#262626] rounded-lg p-2.5 text-xs text-neutral-300 outline-none resize-none font-mono" placeholder="팀 짜기 가동 시 결과 텍스트가 자동 생성됩니다."></textarea>
+
+                <div class="col-span-12 lg:col-span-8 bg-surface-container-low rounded-xl flex flex-col overflow-hidden">
+                    <div class="p-margin flex justify-between items-center bg-surface-container-high/30">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">emoji_events</span>
+                                <h3 class="font-headline-md text-body-md font-bold uppercase">스쿼드 배치판</h3>
+                            </div>
+                            <p class="font-label-sm text-label-sm text-on-surface-variant">드래그 앤 드롭으로 필드 라인업을 미세 조정하세요.</p>
+                        </div>
+                        <button onclick="mixAndMatchTeams()" class="bg-on-surface text-background px-4 py-2 rounded font-bold text-label-sm flex items-center gap-1 hover:bg-primary hover:text-on-primary transition-colors">
+                            <span class="material-symbols-outlined text-[18px]">sports_soccer</span>
+                            팀 짜기 가동
+                        </button>
+                    </div>
+
+                    <div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-gutter p-gutter min-h-[600px]">
+                        <div class="flex flex-col h-full bg-surface-container-lowest/40 p-3 rounded-xl border border-outline-variant/10">
+                            <h4 class="font-label-sm text-label-sm font-bold text-primary border-b border-outline-variant/30 pb-2 mb-3 tracking-wider flex justify-between">
+                                <span>TEAM A</span>
+                            </h4>
+                            <div class="soccer-pitch flex-1 rounded-lg relative p-3 flex flex-col justify-between space-y-2">
+                                <div class="penalty-box-top"></div>
+                                <div class="penalty-box-bottom"></div>
+
+                                <div class="z-10 flex flex-col justify-between h-full space-y-2">
+                                    <div><span class="text-[10px] text-primary font-bold block mb-1">FW</span><div id="zone-A-FW" class="drop-zone flex justify-center gap-2 p-1.5 bg-background/60 rounded border border-outline-variant/20 flex-wrap"></div></div>
+                                    <div><span class="text-[10px] text-primary font-bold block mb-1">MF</span><div id="zone-A-MF" class="drop-zone flex justify-center gap-2 p-1.5 bg-background/60 rounded border border-outline-variant/20 flex-wrap"></div></div>
+                                    <div><span class="text-[10px] text-primary font-bold block mb-1">DF</span><div id="zone-A-DF" class="drop-zone flex justify-center gap-2 p-1.5 bg-background/60 rounded border border-outline-variant/20 flex-wrap"></div></div>
+                                    <div><span class="text-[10px] text-primary font-bold block mb-1">GK</span><div id="zone-A-GK" class="drop-zone flex justify-center gap-2 p-1.5 bg-background/60 rounded border border-outline-variant/20 flex-wrap"></div></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col h-full bg-surface-container-lowest/40 p-3 rounded-xl border border-outline-variant/10">
+                            <h4 class="font-label-sm text-label-sm font-bold text-secondary border-b border-outline-variant/30 pb-2 mb-3 tracking-wider flex justify-between">
+                                <span>TEAM B</span>
+                            </h4>
+                            <div class="soccer-pitch flex-1 rounded-lg relative p-3 flex flex-col justify-between space-y-2">
+                                <div class="penalty-box-top"></div>
+                                <div class="penalty-box-bottom"></div>
+
+                                <div class="z-10 flex flex-col justify-between h-full space-y-2">
+                                    <div><span class="text-[10px] text-secondary font-bold block mb-1">FW</span><div id="zone-B-FW" class="drop-zone flex justify-center gap-2 p-1.5 bg-background/60 rounded border border-outline-variant/20 flex-wrap"></div></div>
+                                    <div><span class="text-[10px] text-secondary font-bold block mb-1">MF</span><div id="zone-B-MF" class="drop-zone flex justify-center gap-2 p-1.5 bg-background/60 rounded border border-outline-variant/20 flex-wrap"></div></div>
+                                    <div><span class="text-[10px] text-secondary font-bold block mb-1">DF</span><div id="zone-B-DF" class="drop-zone flex justify-center gap-2 p-1.5 bg-background/60 rounded border border-outline-variant/20 flex-wrap"></div></div>
+                                    <div><span class="text-[10px] text-secondary font-bold block mb-1">GK</span><div id="zone-B-GK" class="drop-zone flex justify-center gap-2 p-1.5 bg-background/60 rounded border border-outline-variant/20 flex-wrap"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
-        <div class="lg:col-span-7 flex flex-col h-full">
-            <div class="bw-card rounded-xl overflow-hidden flex flex-col h-full">
-                <div class="p-4 bg-[#1a1a1a] border-b border-[#262626] flex justify-between items-center">
-                    <div>
-                        <h2 class="text-xs font-bold text-white">🏆 스쿼드 배치판</h2>
-                        <p class="text-[10px] text-neutral-400">마우스 드래그로 라인업을 미세 조정하세요.</p>
-                    </div>
-                    <button onclick="mixAndMatchTeams()" class="px-6 py-3 bg-white hover:bg-neutral-200 text-black font-black rounded-xl text-xs transition">
-                        ⚽ 팀 짜기 가동
-                    </button>
-                </div>
-
-                <div class="bw-pitch p-5 flex flex-col sm:flex-row gap-5 flex-1">
-
-                    <div class="flex-1 border border-[#262626] bg-[#121212]/50 rounded-xl p-4 flex flex-col justify-between relative space-y-2">
-                        <span class="text-xs font-black text-white block border-b border-[#262626] pb-1">TEAM A</span>
-                        <div class="w-full flex flex-col justify-between h-full space-y-3">
-                            <div><span class="text-[9px] text-neutral-500 font-bold block mb-1">FW</span><div id="zone-A-FW" class="drop-zone flex justify-center gap-2 p-2 bg-black rounded-xl items-center flex-wrap"></div></div>
-                            <div><span class="text-[9px] text-neutral-500 font-bold block mb-1">MF</span><div id="zone-A-MF" class="drop-zone flex justify-center gap-2 p-2 bg-black rounded-xl items-center flex-wrap"></div></div>
-                            <div><span class="text-[9px] text-neutral-500 font-bold block mb-1">DF</span><div id="zone-A-DF" class="drop-zone flex justify-center gap-2 p-2 bg-black rounded-xl items-center flex-wrap"></div></div>
-                            <div><span class="text-[9px] text-neutral-500 font-bold block mb-1">GK</span><div id="zone-A-GK" class="drop-zone flex justify-center gap-2 p-2 bg-black rounded-xl items-center flex-wrap"></div></div>
-                        </div>
-                    </div>
-
-                    <div class="flex-1 border border-[#262626] bg-[#121212]/50 rounded-xl p-4 flex flex-col justify-between relative space-y-2">
-                        <span class="text-xs font-black text-white block border-b border-[#262626] pb-1">TEAM B</span>
-                        <div class="w-full flex flex-col justify-between h-full space-y-3">
-                            <div><span class="text-[9px] text-neutral-500 font-bold block mb-1">FW</span><div id="zone-B-FW" class="drop-zone flex justify-center gap-2 p-2 bg-black rounded-xl items-center flex-wrap"></div></div>
-                            <div><span class="text-[9px] text-neutral-500 font-bold block mb-1">MF</span><div id="zone-B-MF" class="drop-zone flex justify-center gap-2 p-2 bg-black rounded-xl items-center flex-wrap"></div></div>
-                            <div><span class="text-[9px] text-neutral-500 font-bold block mb-1">DF</span><div id="zone-B-DF" class="drop-zone flex justify-center gap-2 p-2 bg-black rounded-xl items-center flex-wrap"></div></div>
-                            <div><span class="text-[9px] text-neutral-500 font-bold block mb-1">GK</span><div id="zone-B-GK" class="drop-zone flex justify-center gap-2 p-2 bg-black rounded-xl items-center flex-wrap"></div></div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+        <div class="md:hidden sticky bottom-0 w-full bg-surface-container-high border-t border-outline-variant px-margin py-base flex justify-around items-center z-40">
+            <button onclick="openRegisterModal()" class="flex flex-col items-center gap-1 text-primary">
+                <span class="material-symbols-outlined">person_add</span>
+                <span class="text-[10px]">Add Player</span>
+            </button>
+            <button onclick="mixAndMatchTeams()" class="flex flex-col items-center gap-1 text-on-surface">
+                <span class="material-symbols-outlined">sports_soccer</span>
+                <span class="text-[10px]">Match</span>
+            </button>
         </div>
-    </div>
-</main>
+    </main>
+</div>
 
-<div id="playerModal" class="fixed inset-0 bg-black/80 flex items-center justify-center hidden z-50 p-4">
-    <div class="bw-card w-full max-w-md rounded-2xl p-6 space-y-4 bg-[#121212]">
-        <div class="flex justify-between items-center border-b border-[#262626] pb-2">
-            <h3 id="modalTitle" class="text-sm font-black text-white">선수 정보 입력</h3>
-            <button onclick="closeModal()" class="text-neutral-500 hover:text-white text-sm">✕</button>
+<div id="playerModal" class="fixed inset-0 bg-background/80 flex items-center justify-center hidden z-50 p-4 backdrop-blur-sm">
+    <div class="bg-surface-container-low w-full max-w-md rounded-xl p-margin border border-outline-variant/40 space-y-4">
+        <div class="flex justify-between items-center border-b border-outline-variant/30 pb-2">
+            <h3 id="modalTitle" class="font-headline-md text-body-md font-bold text-primary">선수 정보 입력</h3>
+            <button onclick="closeModal()" class="text-on-surface-variant hover:text-on-surface transition-colors flex items-center">
+                <span class="material-symbols-outlined">close</span>
+            </button>
         </div>
 
         <input type="hidden" id="modalTargetId">
 
-        <div class="space-y-3 text-xs">
+        <div class="space-y-3 text-sm">
             <div>
-                <label class="block text-neutral-400 mb-1 font-bold">선수 이름</label>
-                <input id="modalName" type="text" class="w-full bg-black border border-[#262626] rounded-lg p-2.5 text-white outline-none focus:border-white">
+                <label class="block text-on-surface-variant mb-1 font-bold text-xs">선수 이름</label>
+                <input id="modalName" type="text" class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded p-2.5 text-on-surface outline-none focus:border-primary focus:ring-0">
             </div>
             <div>
-                <label class="block text-neutral-400 mb-1 font-bold">선호 포지션</label>
+                <label class="block text-on-surface-variant mb-1 font-bold text-xs">선호 포지션</label>
                 <div class="grid grid-cols-4 gap-2">
-                    <button type="button" onclick="setModalPos('FW')" id="btn-pos-FW" class="pos-btn py-2 bg-black border border-[#262626] rounded-lg font-bold text-neutral-400">FW</button>
-                    <button type="button" onclick="setModalPos('MF')" id="btn-pos-MF" class="pos-btn py-2 bg-black border border-[#262626] rounded-lg font-bold text-neutral-400">MF</button>
-                    <button type="button" onclick="setModalPos('DF')" id="btn-pos-DF" class="pos-btn py-2 bg-black border border-[#262626] rounded-lg font-bold text-neutral-400">DF</button>
-                    <button type="button" onclick="setModalPos('GK')" id="btn-pos-GK" class="pos-btn py-2 bg-black border border-[#262626] rounded-lg font-bold text-neutral-400">GK</button>
+                    <button type="button" onclick="setModalPos('FW')" id="btn-pos-FW" class="pos-btn py-2 bg-surface-container-lowest border border-outline-variant/40 rounded font-bold text-on-surface-variant text-xs">FW</button>
+                    <button type="button" onclick="setModalPos('MF')" id="btn-pos-MF" class="pos-btn py-2 bg-surface-container-lowest border border-outline-variant/40 rounded font-bold text-on-surface-variant text-xs">MF</button>
+                    <button type="button" onclick="setModalPos('DF')" id="btn-pos-DF" class="pos-btn py-2 bg-surface-container-lowest border border-outline-variant/40 rounded font-bold text-on-surface-variant text-xs">DF</button>
+                    <button type="button" onclick="setModalPos('GK')" id="btn-pos-GK" class="pos-btn py-2 bg-surface-container-lowest border border-outline-variant/40 rounded font-bold text-on-surface-variant text-xs">GK</button>
                 </div>
                 <input type="hidden" id="modalPos" value="MF">
             </div>
             <div>
-                <label class="block text-neutral-400 mb-1 font-bold">실력 등급</label>
+                <label class="block text-on-surface-variant mb-1 font-bold text-xs">실력 등급</label>
                 <div class="grid grid-cols-3 gap-2">
-                    <button type="button" onclick="setModalTier('상')" id="btn-tier-상" class="tier-btn py-2 bg-black border border-[#262626] rounded-lg font-bold text-neutral-400">상</button>
-                    <button type="button" onclick="setModalTier('중')" id="btn-tier-중" class="tier-btn py-2 bg-black border border-[#262626] rounded-lg font-bold text-neutral-400">중</button>
-                    <button type="button" onclick="setModalTier('하')" id="btn-tier-하" class="tier-btn py-2 bg-black border border-[#262626] rounded-lg font-bold text-neutral-400">하</button>
+                    <button type="button" onclick="setModalTier('상')" id="btn-tier-상" class="tier-btn py-2 bg-surface-container-lowest border border-outline-variant/40 rounded font-bold text-on-surface-variant text-xs">상</button>
+                    <button type="button" onclick="setModalTier('중')" id="btn-tier-중" class="tier-btn py-2 bg-surface-container-lowest border border-outline-variant/40 rounded font-bold text-on-surface-variant text-xs">중</button>
+                    <button type="button" onclick="setModalTier('하')" id="btn-tier-하" class="tier-btn py-2 bg-surface-container-lowest border border-outline-variant/40 rounded font-bold text-on-surface-variant text-xs">하</button>
                 </div>
                 <input type="hidden" id="modalTier" value="중">
             </div>
         </div>
 
         <div class="flex gap-2 pt-2 text-xs">
-            <button onclick="closeModal()" class="flex-1 border border-[#262626] hover:bg-[#1a1a1a] py-2.5 rounded-lg font-bold">취소</button>
-            <button onclick="saveModalData()" class="flex-1 bg-white hover:bg-neutral-200 text-black font-black py-2.5 rounded-lg">저장하기</button>
+            <button onclick="closeModal()" class="flex-1 border border-outline-variant/40 hover:bg-surface-container-high py-2.5 rounded font-bold text-on-surface-variant">취소</button>
+            <button onclick="saveModalData()" class="flex-1 bg-primary text-background hover:bg-primary-fixed font-bold py-2.5 rounded">저장하기</button>
         </div>
     </div>
 </div>
@@ -158,12 +367,12 @@
 <script>
     let clubPlayers = JSON.parse(localStorage.getItem('BW_MODAL_PLAYERS')) || [];
     let todayAttendedIds = [];
-    let currentMatchId = null;
     let currentPitchPlayers = [];
 
     window.onload = function() {
         initDragAndDropHandlers();
         renderPlayerCards();
+        initPitchAnimations();
     };
 
     function openRegisterModal() {
@@ -192,14 +401,18 @@
 
     function setModalPos(pos) {
         document.getElementById('modalPos').value = pos;
-        document.querySelectorAll('.pos-btn').forEach(b => b.className = "pos-btn py-2 bg-black border border-[#262626] text-neutral-400 rounded-lg font-bold");
-        document.getElementById(`btn-pos-${pos}`).className = "pos-btn py-2 bg-white text-black rounded-lg font-black border border-white";
+        document.querySelectorAll('.pos-btn').forEach(b => {
+            b.className = "pos-btn py-2 bg-surface-container-lowest border border-outline-variant/40 rounded font-bold text-on-surface-variant text-xs";
+        });
+        document.getElementById(`btn-pos-${pos}`).className = "pos-btn py-2 bg-primary text-background rounded font-bold text-xs border border-primary";
     }
 
     function setModalTier(tier) {
         document.getElementById('modalTier').value = tier;
-        document.querySelectorAll('.tier-btn').forEach(b => b.className = "tier-btn py-2 bg-black border border-[#262626] rounded-lg font-bold text-neutral-400");
-        document.getElementById(`btn-tier-${tier}`).className = "tier-btn py-2 bg-white text-black font-black border border-white rounded-lg";
+        document.querySelectorAll('.tier-btn').forEach(b => {
+            b.className = "tier-btn py-2 bg-surface-container-lowest border border-outline-variant/40 rounded font-bold text-on-surface-variant text-xs";
+        });
+        document.getElementById(`btn-tier-${tier}`).className = "tier-btn py-2 bg-primary text-background font-bold border border-primary rounded text-xs";
     }
 
     function saveModalData() {
@@ -244,7 +457,11 @@
         const container = document.getElementById('clickPlayerList');
         container.innerHTML = '';
         if(clubPlayers.length === 0) {
-            container.innerHTML = `<p class="text-xs text-neutral-500 text-center py-12 col-span-full">등록된 멤버가 없습니다.</p>`;
+            container.innerHTML = `
+                <div class="flex flex-col items-center justify-center p-lg opacity-40 text-center h-full min-h-[200px]">
+                    <span class="material-symbols-outlined text-4xl mb-4">group_off</span>
+                    <p class="font-body-md text-on-surface-variant">등록된 멤버가 없습니다.</p>
+                </div>`;
             document.getElementById('attendCount').innerText = 0;
             return;
         }
@@ -252,25 +469,27 @@
         clubPlayers.forEach(p => {
             const isAttended = todayAttendedIds.includes(p.id);
             const card = document.createElement('div');
-            card.className = `p-2.5 rounded-xl border text-white flex justify-between items-center select-none transition relative ${isAttended ? 'bg-[#1c1c1c] border-[#404040]' : 'bg-[#0a0a0a] border-[#262626] opacity-40'}`;
+            card.className = `p-3 rounded-lg border text-on-surface flex justify-between items-center select-none transition-all relative ${isAttended ? 'bg-surface-container-high border-primary/40' : 'bg-surface-container-lowest border-outline-variant/20 opacity-40'}`;
 
             card.innerHTML = `
-                    <div class="flex items-center gap-2 truncate flex-1 h-full" onclick="openEditModal('${p.id}')">
-                        <span onclick="event.stopPropagation(); toggleAttendance('${p.id}')" class="w-5 h-5 rounded-full ${isAttended ? 'bg-white text-black' : 'bg-black border border-[#404040] text-transparent'} flex items-center justify-center cursor-pointer text-[10px] font-black transition">
-                            ${isAttended ? '✓' : ''}
-                        </span>
-                        <div class="flex flex-col cursor-pointer pl-1 truncate">
-                            <span class="text-xs font-bold truncate">${p.name}</span>
-                            <span class="text-[9px] text-neutral-400 font-normal mt-0.5">${p.preferredPosition}</span>
-                        </div>
+                <div class="flex items-center gap-3 truncate flex-1 h-full cursor-pointer" onclick="openEditModal('${p.id}')">
+                    <span onclick="event.stopPropagation(); toggleAttendance('${p.id}')" class="w-5 h-5 rounded flex items-center justify-center cursor-pointer text-xs transition-colors ${isAttended ? 'bg-primary text-background' : 'bg-background border border-outline-variant/60 text-transparent'}">
+                        ${isAttended ? '✓' : ''}
+                    </span>
+                    <div class="flex flex-col truncate pl-0.5">
+                        <span class="font-bold text-sm text-on-surface truncate">${p.name}</span>
+                        <span class="font-mono-data text-[10px] text-on-surface-variant uppercase mt-0.5">${p.preferredPosition}</span>
                     </div>
-                    <div class="mr-6 cursor-pointer" onclick="openEditModal('${p.id}')">
-                        <span class="text-[9px] font-bold border border-[#404040] px-2 py-0.5 rounded text-neutral-300">
-                            ${p.tier}
-                        </span>
-                    </div>
-                    <button onclick="event.stopPropagation(); deletePlayer('${p.id}')" class="absolute right-1.5 top-2.5 text-[10px] text-neutral-600 hover:text-white px-1">✕</button>
-                `;
+                </div>
+                <div class="mr-8 flex items-center gap-1.5 cursor-pointer" onclick="openEditModal('${p.id}')">
+                    <span class="text-[10px] font-bold border border-outline-variant/60 px-2 py-0.5 rounded text-on-surface-variant bg-background/40">
+                        ${p.tier}
+                    </span>
+                </div>
+                <button onclick="event.stopPropagation(); deletePlayer('${p.id}')" class="absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-error px-1 flex items-center transition-colors">
+                    <span class="material-symbols-outlined text-sm">close</span>
+                </button>
+            `;
             container.appendChild(card);
         });
         document.getElementById('attendCount').innerText = todayAttendedIds.length;
@@ -282,46 +501,32 @@
         renderPlayerCards();
     }
 
-    async function mixAndMatchTeams() {
+    function mixAndMatchTeams() {
         if(todayAttendedIds.length < 2) return alert('출석 체크된 인원이 최소 2명 이상이어야 합니다.');
-        try {
-            const teamSize = Math.ceil(todayAttendedIds.length / 2);
-            const mRes = await fetch('/api/matches', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ matchDate: new Date().toISOString(), matchType: `${teamSize}vs${teamSize}` })
-            });
-            const mText = await mRes.text();
-            currentMatchId = mText.split('ID: ')[1]?.trim();
 
-            for(let id of todayAttendedIds) {
-                const p = clubPlayers.find(cp => cp.id === id);
-                if(!p) continue;
-                const pRes = await fetch('/api/players', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name: p.name, preferredPosition: p.preferredPosition, tier: p.tier, internalRating: p.internalRating })
-                });
-                const pText = await pRes.text();
-                const serverPlayerId = pText.split('ID: ')[1]?.trim();
+        let activePlayers = todayAttendedIds.map(id => clubPlayers.find(p => p.id === id)).filter(Boolean);
+        activePlayers.sort((a, b) => b.internalRating - a.internalRating);
 
-                if(serverPlayerId) {
-                    await fetch(`/api/matches/${currentMatchId}/attend?playerId=${serverPlayerId}`, { method: 'POST' });
-                }
+        let teamA = [];
+        let teamB = [];
+        let sumA = 0;
+        let sumB = 0;
+
+        activePlayers.forEach((player) => {
+            if (teamA.length <= teamB.length && sumA <= sumB) {
+                teamA.push(player);
+                sumA += player.internalRating;
+            } else {
+                teamB.push(player);
+                sumB += player.internalRating;
             }
+        });
 
-            const balanceRes = await fetch(`/api/matches/${currentMatchId}/balance`, { method: 'POST' });
-            if(!balanceRes.ok) return alert('밸런스 연산 실패');
+        currentPitchPlayers = [];
+        teamA.forEach(p => currentPitchPlayers.push({ id: 'pitch_' + Math.random().toString(36).substr(2,4), name: p.name, tier: p.tier, side: 'A', pos: p.preferredPosition }));
+        teamB.forEach(p => currentPitchPlayers.push({ id: 'pitch_' + Math.random().toString(36).substr(2,4), name: p.name, tier: p.tier, side: 'B', pos: p.preferredPosition }));
 
-            const data = await balanceRes.json();
-
-            currentPitchPlayers = [];
-            if(data.teamA) data.teamA.forEach(p => currentPitchPlayers.push({ id: 'pitch_' + Math.random().toString(36).substr(2,4), name: p.name, tier: p.tier || '중', side: 'A', pos: p.preferredPosition }));
-            if(data.teamB) data.teamB.forEach(p => currentPitchPlayers.push({ id: 'pitch_' + Math.random().toString(36).substr(2,4), name: p.name, tier: p.tier || '중', side: 'B', pos: p.preferredPosition }));
-
-            renderPitchSquads();
-
-        } catch (error) { alert('백엔드 연산 통신 오류'); }
+        renderPitchSquads();
     }
 
     function renderPitchSquads() {
@@ -335,7 +540,8 @@
             chip.id = p.id;
             chip.draggable = true;
 
-            chip.className = `player-chip px-2.5 py-1.5 rounded-lg text-xs font-bold bg-black border border-[#404040] text-white flex items-center shadow-md select-none`;
+            const borderClass = p.side === 'A' ? 'border-primary/40' : 'border-secondary/40';
+            chip.className = `player-chip px-2 py-1 rounded shadow bg-surface border ${borderClass} text-on-surface text-xs font-bold flex items-center select-none active:scale-95 transition-transform duration-100`;
             chip.innerText = `${p.name}(${p.tier})`;
 
             chip.addEventListener('dragstart', (e) => {
@@ -384,16 +590,16 @@
             }).filter(str => str !== '').join('\n  ');
         };
 
-        const txt = `[TEAM MATCHING RESULT]\n\n● TEAM A\n  ${getTeamList('A') || 'Empty'}\n\n● TEAM B\n  ${getTeamList('B') || 'Empty'}`;
+        const txt = `[MATCHMAKER PRO 결과]\n\n● TEAM A\n  ${getTeamList('A') || 'Empty'}\n\n● TEAM B\n  ${getTeamList('B') || 'Empty'}`;
         document.getElementById('shareTextResult').value = txt;
     }
 
     function copyToClipboard() {
         const textarea = document.getElementById('shareTextResult');
-        if(!textarea.value) return alert('결과 데이터가 없습니다.');
+        if(!textarea.value || textarea.value.includes('자동 생성됩니다.')) return alert('결과 데이터가 없습니다.');
         textarea.select();
         document.execCommand('copy');
-        alert('결과가 복사되었습니다.');
+        alert('결과 내용이 클립보드에 복사되었습니다.');
     }
 
     function fillSamplePlayers() {
@@ -410,6 +616,7 @@
     }
 
     function resetAll() {
+        if(!confirm('모든 데이터와 배치판을 전체 초기화하시겠습니까?')) return;
         clubPlayers = []; todayAttendedIds = []; currentPitchPlayers = [];
         localStorage.removeItem('BW_MODAL_PLAYERS');
         document.getElementById('shareTextResult').value = '';
@@ -418,6 +625,18 @@
     }
 
     function saveData() { localStorage.setItem('BW_MODAL_PLAYERS', JSON.stringify(clubPlayers)); }
+
+    function initPitchAnimations() {
+        const pitches = document.querySelectorAll('.soccer-pitch');
+        pitches.forEach(pitch => {
+            pitch.addEventListener('mouseenter', () => {
+                pitch.style.backgroundColor = 'rgba(75, 226, 119, 0.03)';
+            });
+            pitch.addEventListener('mouseleave', () => {
+                pitch.style.backgroundColor = 'rgba(14, 14, 14, 0.5)';
+            });
+        });
+    }
 </script>
 </body>
 </html>
