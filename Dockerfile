@@ -1,8 +1,7 @@
-# 1단계: 빌드 환경 설정
-FROM maven:3.8.4-openjdk-17 AS build
+# 1단계: 빌드 환경 설정 (가장 안정적인 공식 Gradle 이미지 사용)
+FROM gradle:8-jdk17 AS build
 WORKDIR /app
 COPY . .
-# ⭐️ 여기에 실행 권한을 주는 명령어 한 줄을 추가합니다.
 RUN chmod +x ./gradlew
 RUN ./gradlew build -x test
 
